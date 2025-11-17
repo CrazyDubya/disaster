@@ -1,0 +1,25 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+
+# Node.js dependencies (if any are added later)
+node_modules/
+
+# Python virtual environments (if any are added later)
+venv/
+.venv/
+
+# Build artifacts (if any are added later)
+build/
+dist/
