@@ -73,4 +73,27 @@ environment for the Emergency Preparedness System.
   `/agent/repos/*` and honored the branch ref.
 - Fix: install + terminal commands now use the absolute script path
   `/agent/repos/disaster/.cursor/...` (verified cwd-independent locally).
-  Re-triggering the build with the same snapshot.
+- Build 2 (`bld-...9ca9e4fe...`) — SUCCEEDED. Install log:
+  `==> App directory: /agent/repos/emergency-preparedness/disaster` ...
+  `==> Install complete.` (exit 0).
+
+### Fresh Cloud Agent verification (booted from build 2)
+- venv + key packages present (fastapi 0.141.1, uvicorn 0.52.4, streamlit
+  1.63.0, pandas 3.0.5, plotly 7.0.0, python-jose 3.5.0, passlib 1.7.4)
+- `dev_api_keys.json` present (install ran during the build)
+- `run_tests.py` 97/97; `system_test.py` 10/10
+- API `/health` 200; `/api/profile` 401 (unauth); `gui_key`
+  `/api/knowledge/search?q=water` 200; `/api/drills/scenarios` JSON
+- Streamlit `/_stcore/health` -> ok (200)
+- Note: terminals are not auto-started by a draft build (build override carries
+  only `install`); the fresh agent started them via the committed run scripts.
+  When the committed `.cursor/environment.json` is active (PR merged), future
+  agents auto-start the `api` + `streamlit` terminals.
+
+### Save model
+- This is a REPOSITORY-MANAGED environment: the full config (install +
+  terminals + ports + repositoryDependencies) lives in
+  `.cursor/environment.json` and takes precedence over dashboard config.
+  Merging the PR activates it for future Cloud Agents on this repo. The
+  dashboard propose/Save flow (install/start only) cannot represent terminals
+  or repositoryDependencies, so it is not used here.
