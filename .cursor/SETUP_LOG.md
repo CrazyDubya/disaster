@@ -59,7 +59,18 @@ environment for the Emergency Preparedness System.
 
 ### Environment config (this repo)
 - `.cursor/environment.json` — user ubuntu; repositoryDependency
-  emergency-preparedness; install `.cursor/install.sh`; terminals api +
-  streamlit; ports 8000 / 8501.
+  emergency-preparedness; install + terminals invoke the scripts by absolute
+  path (`/agent/repos/disaster/.cursor/...`); ports 8000 / 8501.
 - `.cursor/app_env.sh` — locates the app dir (sibling repo) from any cwd.
 - `.cursor/install.sh`, `.cursor/run-api.sh`, `.cursor/run-streamlit.sh`.
+
+### Draft build results
+- Snapshot `snapshot-20260914-733273ae-...` — READY.
+- Build 1 (`bld-...5537f41e...`) — FAILED (INSTALL_FAILED). Root cause: build
+  runs the install command from the workspace root (`/agent/repos`), not from
+  inside the `disaster` repo, so the relative `bash .cursor/install.sh` gave
+  `No such file or directory` (exit 127). The build cloned BOTH repos to
+  `/agent/repos/*` and honored the branch ref.
+- Fix: install + terminal commands now use the absolute script path
+  `/agent/repos/disaster/.cursor/...` (verified cwd-independent locally).
+  Re-triggering the build with the same snapshot.
