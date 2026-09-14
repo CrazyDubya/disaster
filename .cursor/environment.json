@@ -1,0 +1,22 @@
+{
+  "name": "Emergency Preparedness System",
+  "user": "ubuntu",
+  "repositoryDependencies": ["github.com/CrazyDubya/emergency-preparedness"],
+  "install": "bash .cursor/install.sh",
+  "terminals": [
+    {
+      "name": "api",
+      "command": "bash .cursor/run-api.sh",
+      "description": "FastAPI backend (uvicorn) on http://localhost:8000 — docs at /docs. Dev API keys: admin_key / user_key / gui_key."
+    },
+    {
+      "name": "streamlit",
+      "command": "bash .cursor/run-streamlit.sh",
+      "description": "Streamlit GUI on http://localhost:8501. Talks to the API using the embedded gui_key."
+    }
+  ],
+  "ports": [
+    { "name": "api", "port": 8000 },
+    { "name": "streamlit", "port": 8501 }
+  ]
+}
